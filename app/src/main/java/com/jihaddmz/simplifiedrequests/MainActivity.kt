@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity() {
 //        SimplifiedRequests.setUpApi("https://jsonplaceholder.typicode.com", hashMapOf("Authorization" to "Bearer 8484889484948943"))
 
 //        fetchPersons()
-        fetchPerson()
-//        addPerson()
+//        fetchPerson()
+        addPerson()
 //        updatePerson()
 //        deletePerson()
 
@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
             SimplifiedRequests.callPost<SimpleMessageDTO>(
                 "persons",
                 PersonDTO("Jihadmz", "Mahfouz"),
+                mapOf("Authorization" to "this is  the new one"),
                 onSuccess = {
                     runOnUiThread {
                         binding.tv.text = it.toString()

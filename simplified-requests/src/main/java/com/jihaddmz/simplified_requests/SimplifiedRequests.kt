@@ -19,6 +19,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.http.HeaderMap
 
 
 object SimplifiedRequests {
@@ -69,13 +70,14 @@ object SimplifiedRequests {
     inline fun <reified Res> callGet(
         endpoint: String,
         queryParams: HashMap<String, String>? = null,
+        headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
         crossinline onFailed: (Exception) -> Unit = {}
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result: Res = if (queryParams != null) {
-                    parseResponse(service.callGet(endpoint, queryParams).toString())
+                    parseResponse(service.callGet(endpoint, queryParams, headers).toString())
                 } else {
                     parseResponse(service.callGet(endpoint).toString())
 
@@ -96,11 +98,12 @@ object SimplifiedRequests {
     suspend inline fun <reified Res : Any> callPost(
         endpoint: String,
         body: Any,
+        headers: Map<String, String> = mapOf(),
         onSuccess: (Res) -> Unit,
         onFailed: (Exception) -> Unit = {}
     ) {
         try {
-            val result: Res = parseResponse(service.callPost(endpoint, body).toString())
+            val result: Res = parseResponse(service.callPost(endpoint, body, headers).toString())
             onSuccess(result)
         } catch (e: Exception) {
             onFailed(e)
@@ -110,11 +113,12 @@ object SimplifiedRequests {
     suspend inline fun <reified Res : Any> callPut(
         endpoint: String,
         body: Any,
+        headers: Map<String, String> = mapOf(),
         onSuccess: (Res) -> Unit,
         onFailed: (Exception) -> Unit = {}
     ) {
         try {
-            val result: Res = parseResponse(service.callPut(endpoint, body).toString())
+            val result: Res = parseResponse(service.callPut(endpoint, body, headers).toString())
             onSuccess(result)
         } catch (e: Exception) {
             onFailed(e)
@@ -123,11 +127,12 @@ object SimplifiedRequests {
 
     suspend inline fun <reified Res : Any> callDelete(
         endpoint: String,
+        headers: Map<String, String> = mapOf(),
         onSuccess: (Res) -> Unit,
         onFailed: (Exception) -> Unit = {}
     ) {
         try {
-            val result: Res = parseResponse(service.callDelete(endpoint).toString())
+            val result: Res = parseResponse(service.callDelete(endpoint, headers).toString())
             onSuccess(result)
         } catch (e: Exception) {
             onFailed(e)
