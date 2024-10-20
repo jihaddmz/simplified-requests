@@ -1,25 +1,19 @@
 package com.jihaddmz.simplified_requests
 
-import androidx.lifecycle.LifecycleCoroutineScope
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.internal.wait
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import retrofit2.http.HeaderMap
 
 
 object SimplifiedRequests {
@@ -95,47 +89,74 @@ object SimplifiedRequests {
         }
     }
 
-    suspend inline fun <reified Res : Any> callPost(
+    inline fun <reified Res : Any> callPost(
         endpoint: String,
         body: Any,
         headers: Map<String, String> = mapOf(),
-        onSuccess: (Res) -> Unit,
-        onFailed: (Exception) -> Unit = {}
+        crossinline onSuccess: (Res) -> Unit,
+        crossinline onFailed: (Exception) -> Unit = {}
     ) {
-        try {
-            val result: Res = parseResponse(service.callPost(endpoint, body, headers).toString())
-            onSuccess(result)
-        } catch (e: Exception) {
-            onFailed(e)
+        CoroutineScope(Dispatchers.IO).launch {
+
+            try {
+                val result: Res =
+                    parseResponse(service.callPost(endpoint, body, headers).toString())
+                withContext(Dispatchers.Main) {
+                    onSuccess(result)
+                }
+                cancel()
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    onFailed(e)
+                }
+                cancel()
+            }
         }
     }
 
-    suspend inline fun <reified Res : Any> callPut(
+    inline fun <reified Res : Any> callPut(
         endpoint: String,
         body: Any,
         headers: Map<String, String> = mapOf(),
-        onSuccess: (Res) -> Unit,
-        onFailed: (Exception) -> Unit = {}
+        crossinline onSuccess: (Res) -> Unit,
+        crossinline onFailed: (Exception) -> Unit = {}
     ) {
-        try {
-            val result: Res = parseResponse(service.callPut(endpoint, body, headers).toString())
-            onSuccess(result)
-        } catch (e: Exception) {
-            onFailed(e)
+        CoroutineScope(Dispatchers.IO).launch {
+
+            try {
+                val result: Res = parseResponse(service.callPut(endpoint, body, headers).toString())
+                withContext(Dispatchers.Main) {
+                    onSuccess(result)
+                }
+                cancel()
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    onFailed(e)
+                }
+                cancel()
+            }
         }
     }
 
-    suspend inline fun <reified Res : Any> callDelete(
+    inline fun <reified Res : Any> callDelete(
         endpoint: String,
         headers: Map<String, String> = mapOf(),
-        onSuccess: (Res) -> Unit,
-        onFailed: (Exception) -> Unit = {}
+        crossinline onSuccess: (Res) -> Unit,
+        crossinline onFailed: (Exception) -> Unit = {}
     ) {
-        try {
-            val result: Res = parseResponse(service.callDelete(endpoint, headers).toString())
-            onSuccess(result)
-        } catch (e: Exception) {
-            onFailed(e)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result: Res = parseResponse(service.callDelete(endpoint, headers).toString())
+                withContext(Dispatchers.Main) {
+                    onSuccess(result)
+                }
+                cancel()
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    onFailed(e)
+                }
+                cancel()
+            }
         }
     }
 

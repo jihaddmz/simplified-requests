@@ -1,5 +1,6 @@
 package com.jihaddmz.simplifiedrequests
 
+import android.net.http.HttpException
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,110 +24,99 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        SimplifiedRequests.setUpApi("http://192.168.0.175:8080", headers = hashMapOf("Authorization" to "Bearer in main activity"))
-//        SimplifiedRequests.setUpApi("https://jsonplaceholder.typicode.com", hashMapOf("Authorization" to "Bearer 8484889484948943"))
+        SimplifiedRequests.setUpApi(
+            "http://192.168.0.175:8080",
+            headers = hashMapOf("Authorization" to "Bearer sh_8u458345834jfjdjfjdsfn")
+        )
 
-//        fetchPersons()
+        fetchPersons()
 //        fetchPerson()
-        addPerson()
+//        addPerson()
 //        updatePerson()
 //        deletePerson()
 
     }
 
     private fun deletePerson() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            SimplifiedRequests.callDelete<SimpleMessageDTO>(
-                "person/Jihad",
-                onSuccess = {
-                    runOnUiThread {
-                        binding.tv.text = it.message
-                    }
-                },
-                onFailed = {
-                    binding.tv.text = it.toString()
+        SimplifiedRequests.callDelete<SimpleMessageDTO>(
+            "person/Jihad",
+            onSuccess = {
+                runOnUiThread {
+                    binding.tv.text = it.message
                 }
-            )
-        }
+            },
+            onFailed = {
+                binding.tv.text = it.toString()
+            }
+        )
     }
 
     private fun updatePerson() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            SimplifiedRequests.callPut<SimpleMessageDTO>(
-                "person/Jihadmz",
-                PersonDTO("Jihad", "Mahfouz"),
-                onSuccess = {
-                    runOnUiThread {
-                        binding.tv.text = it.toString()
-                    }
-                },
-                onFailed = {
-                    runOnUiThread {
-                        binding.tv.text = it.toString()
-                    }
+        SimplifiedRequests.callPut<SimpleMessageDTO>(
+            "person/Jihadmz",
+            PersonDTO("Jihad", "Mahfouz"),
+            onSuccess = {
+                runOnUiThread {
+                    binding.tv.text = it.toString()
                 }
-            )
-
-        }
+            },
+            onFailed = {
+                runOnUiThread {
+                    binding.tv.text = it.toString()
+                }
+            }
+        )
     }
 
 
     private fun addPerson() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            SimplifiedRequests.callPost<SimpleMessageDTO>(
-                "persons",
-                PersonDTO("Jihadmz", "Mahfouz"),
-                mapOf("Authorization" to "this is  the new one"),
-                onSuccess = {
-                    runOnUiThread {
-                        binding.tv.text = it.toString()
-                    }
-                },
-                onFailed = {
-                    runOnUiThread {
-                        binding.tv.text = it.toString()
-                    }
+        SimplifiedRequests.callPost<SimpleMessageDTO>(
+            "persons",
+            PersonDTO("Jihadmz", "Mahfouz"),
+            mapOf("Authorization" to "sh_kdsjfksdjfkdjfkjfksjfkjd"),
+            onSuccess = {
+                runOnUiThread {
+                    binding.tv.text = it.toString()
                 }
-            )
-
-        }
+            },
+            onFailed = {
+                runOnUiThread {
+                    binding.tv.text = it.toString()
+                }
+            }
+        )
     }
 
     private fun fetchPerson() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            SimplifiedRequests.callGet<FilterPersonDTO>(
-                "person",
-                hashMapOf("firstName" to "Jihadmz"),
-                onSuccess = {
-                    runOnUiThread {
-                        binding.tv.text = it.toString()
-                    }
-                },
-                onFailed = {
-                    runOnUiThread {
-                        binding.tv.text = it.toString()
-                    }
+        SimplifiedRequests.callGet<FilterPersonDTO>(
+            "person",
+            hashMapOf("firstName" to "Jihadmz"),
+            onSuccess = {
+                runOnUiThread {
+                    binding.tv.text = it.toString()
                 }
-            )
-
-        }
+            },
+            onFailed = {
+                runOnUiThread {
+                    binding.tv.text = it.toString()
+                }
+            }
+        )
     }
 
     private fun fetchPersons() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            SimplifiedRequests.callGet<ArrayList<PersonDTO>>(
-                "persons",
-                null,
-                onSuccess = {
-                    runOnUiThread {
-                        binding.tv.text = it.toString()
-                    }
-                },
-                onFailed = {
-                    runOnUiThread {
-                        binding.tv.text = it.message
-                    }
-                })
-        }
+        SimplifiedRequests.callGet<ArrayList<PersonDTO>>(
+            "persons",
+            null,
+            onSuccess = {
+                runOnUiThread {
+                    binding.tv.text = it.toString()
+                }
+            },
+            onFailed = {
+                runOnUiThread {
+                    binding.tv.text = it.message
+                }
+            })
     }
 }
