@@ -1,16 +1,12 @@
 package com.jihaddmz.simplifiedrequests
 
-import android.net.http.HttpException
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
 import com.jihaddmz.simplified_requests.SimplifiedRequests
 import com.jihaddmz.simplifiedrequests.databinding.ActivityMainBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -41,9 +37,7 @@ class MainActivity : AppCompatActivity() {
         SimplifiedRequests.callDelete<SimpleMessageDTO>(
             "person/Jihad",
             onSuccess = {
-                runOnUiThread {
-                    binding.tv.text = it.message
-                }
+                binding.tv.text = it.message
             },
             onFailed = {
                 binding.tv.text = it.toString()
@@ -56,14 +50,10 @@ class MainActivity : AppCompatActivity() {
             "person/Jihadmz",
             PersonDTO("Jihad", "Mahfouz"),
             onSuccess = {
-                runOnUiThread {
-                    binding.tv.text = it.toString()
-                }
+                binding.tv.text = it.toString()
             },
             onFailed = {
-                runOnUiThread {
-                    binding.tv.text = it.toString()
-                }
+                binding.tv.text = it.toString()
             }
         )
     }
@@ -72,17 +62,13 @@ class MainActivity : AppCompatActivity() {
     private fun addPerson() {
         SimplifiedRequests.callPost<SimpleMessageDTO>(
             "persons",
-            PersonDTO("Jihadmz", "Mahfouz"),
+            PersonDTO("Jihad", "Mahfouz"),
             mapOf("Authorization" to "sh_kdsjfksdjfkdjfkjfksjfkjd"),
             onSuccess = {
-                runOnUiThread {
-                    binding.tv.text = it.toString()
-                }
+                binding.tv.text = it.toString()
             },
             onFailed = {
-                runOnUiThread {
-                    binding.tv.text = it.toString()
-                }
+                binding.tv.text = it.toString()
             }
         )
     }
@@ -92,14 +78,10 @@ class MainActivity : AppCompatActivity() {
             "person",
             hashMapOf("firstName" to "Jihadmz"),
             onSuccess = {
-                runOnUiThread {
-                    binding.tv.text = it.toString()
-                }
+                binding.tv.text = it.toString()
             },
             onFailed = {
-                runOnUiThread {
-                    binding.tv.text = it.toString()
-                }
+                binding.tv.text = it.toString()
             }
         )
     }
@@ -109,14 +91,10 @@ class MainActivity : AppCompatActivity() {
             "persons",
             null,
             onSuccess = {
-                runOnUiThread {
-                    binding.tv.text = it.toString()
-                }
+                binding.tv.text = it.toString()
             },
             onFailed = {
-                runOnUiThread {
-                    binding.tv.text = it.message
-                }
+                binding.tv.text = it.message
             })
     }
 }
