@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("maven-publish") apply true
+
 }
 
 android {
@@ -45,4 +47,17 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.11.0")
 
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                from (components["release"])
+                groupId = "com.github.jihaddmz"
+                artifactId = "simplified-requests"
+                version = "0.9.0"
+            }
+        }
+    }
 }
