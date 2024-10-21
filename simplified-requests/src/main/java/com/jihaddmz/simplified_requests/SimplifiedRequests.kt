@@ -21,6 +21,14 @@ object SimplifiedRequests {
     lateinit var service: ApiService
         private set
 
+    /**
+     * Setting up the api to be able to call the http requests. This method should be called before any request call.
+     * @param baseUrl this is the base url of the backend api. Note: don't append / to it
+     * @param useGsonConverter true if you want to use GsonConverter with the api
+     * @param useMoshiConverter true if you want to use MoshiConverter with the api
+     * @param useScalarsConverter true if you want to use ScalarsConverter with the api
+     * @param headers any important headers you want to add. Like token header
+     **/
     fun setUpApi(
         baseUrl: String,
         useGsonConverter: Boolean = true,
@@ -61,6 +69,15 @@ object SimplifiedRequests {
         service = retrofit.build().create(ApiService::class.java)
     }
 
+    /**
+     * Calling a get http request using the baseUrl and the endpoint provided here.
+     * @param endpoint the endpoint appended to the baseUrl you wish to call. Note: don't prefix the endpoint with /
+     * @param queryParams the parameters added to the url
+     * @param headers any other headers specifically designed to this api call. Note: if you have passed the same
+     * header as above, the latter will be overridden by this one
+     * @param onSuccess a callback for when the result is returned
+     * @param onFailed a callback for when an error has returned
+     **/
     inline fun <reified Res> callGet(
         endpoint: String,
         queryParams: HashMap<String, String>? = null,
@@ -89,6 +106,16 @@ object SimplifiedRequests {
         }
     }
 
+    /**
+     * Calling a post http request using the baseUrl and the endpoint provided here.
+     * @param endpoint the endpoint appended to the baseUrl you wish to call. Note: don't prefix the endpoint with /
+     * @param body the request body attached to this request. This could be either as simple as a simple String, or
+     * as a complex object, like a self created data class.
+     * @param headers any other headers specifically designed to this api call. Note: if you have passed the same
+     * header as above, the latter will be overridden by this one
+     * @param onSuccess a callback for when the result is returned
+     * @param onFailed a callback for when an error has returned
+     **/
     inline fun <reified Res : Any> callPost(
         endpoint: String,
         body: Any,
@@ -114,6 +141,16 @@ object SimplifiedRequests {
         }
     }
 
+    /**
+     * Calling a put http request using the baseUrl and the endpoint provided here.
+     * @param endpoint the endpoint appended to the baseUrl you wish to call. Note: don't prefix the endpoint with /
+     * @param body the request body attached to this request. This could be either as simple as a simple String, or
+     * as a complex object, like a self created data class.
+     * @param headers any other headers specifically designed to this api call. Note: if you have passed the same
+     * header as above, the latter will be overridden by this one
+     * @param onSuccess a callback for when the result is returned
+     * @param onFailed a callback for when an error has returned
+     **/
     inline fun <reified Res : Any> callPut(
         endpoint: String,
         body: Any,
@@ -138,6 +175,14 @@ object SimplifiedRequests {
         }
     }
 
+    /**
+     * Calling a delete http request using the baseUrl and the endpoint provided here.
+     * @param endpoint the endpoint appended to the baseUrl you wish to call. Note: don't prefix the endpoint with /
+     * @param headers any other headers specifically designed to this api call. Note: if you have passed the same
+     * header as above, the latter will be overridden by this one
+     * @param onSuccess a callback for when the result is returned
+     * @param onFailed a callback for when an error has returned
+     **/
     inline fun <reified Res : Any> callDelete(
         endpoint: String,
         headers: Map<String, String> = mapOf(),
