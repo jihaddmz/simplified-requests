@@ -31,7 +31,15 @@ SimplifiedRequests.setUpApi(
             headers = hashMapOf("Authorization" to "Bearer sh_8u458345834jfjdjfjdsfn")
 )
 
-SimplifiedRequests.callGet<ArrayList<PersonDTO>>(
+@Parcelize
+data class PersonDTO(
+    @field:[Expose SerializedName("firstName")]
+    val firstName: String?,
+    @field:[Expose SerializedName("lastName")]
+    val lastName: String?
+) : Parcelable
+
+SimplifiedRequests.callGet<ArrayList<PersonDTO>>( // ArrayList<PersonDTO> is the expected type returned by the server api
             "persons",
             null,
             onSuccess = {
