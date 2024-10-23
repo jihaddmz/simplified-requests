@@ -78,31 +78,23 @@ object SimplifiedRequests {
      * @param onSuccess a callback for when the result is returned
      * @param onFailed a callback for when an error has returned
      **/
-    inline fun <reified Res> callGet(
+    suspend inline fun <reified Res> callGet(
         endpoint: String,
         queryParams: HashMap<String, String>? = null,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
         crossinline onFailed: (Exception) -> Unit = {}
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val result: Res = if (queryParams != null) {
-                    parseResponse(service.callGet(endpoint, queryParams, headers).toString())
-                } else {
-                    parseResponse(service.callGet(endpoint).toString())
+        try {
+            val result: Res = if (queryParams != null) {
+                parseResponse(service.callGet(endpoint, queryParams, headers).toString())
+            } else {
+                parseResponse(service.callGet(endpoint).toString())
 
-                }
-                withContext(Dispatchers.Main) {
-                    onSuccess(result)
-                }
-                cancel()
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onFailed(e)
-                }
-                cancel()
             }
+            onSuccess(result)
+        } catch (e: Exception) {
+            onFailed(e)
         }
     }
 
@@ -116,28 +108,19 @@ object SimplifiedRequests {
      * @param onSuccess a callback for when the result is returned
      * @param onFailed a callback for when an error has returned
      **/
-    inline fun <reified Res : Any> callPost(
+    suspend inline fun <reified Res : Any> callPost(
         endpoint: String,
         body: Any,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
         crossinline onFailed: (Exception) -> Unit = {}
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-
-            try {
-                val result: Res =
-                    parseResponse(service.callPost(endpoint, body, headers).toString())
-                withContext(Dispatchers.Main) {
-                    onSuccess(result)
-                }
-                cancel()
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onFailed(e)
-                }
-                cancel()
-            }
+        try {
+            val result: Res =
+                parseResponse(service.callPost(endpoint, body, headers).toString())
+            onSuccess(result)
+        } catch (e: Exception) {
+            onFailed(e)
         }
     }
 
@@ -151,27 +134,18 @@ object SimplifiedRequests {
      * @param onSuccess a callback for when the result is returned
      * @param onFailed a callback for when an error has returned
      **/
-    inline fun <reified Res : Any> callPut(
+    suspend inline fun <reified Res : Any> callPut(
         endpoint: String,
         body: Any,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
         crossinline onFailed: (Exception) -> Unit = {}
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-
-            try {
-                val result: Res = parseResponse(service.callPut(endpoint, body, headers).toString())
-                withContext(Dispatchers.Main) {
-                    onSuccess(result)
-                }
-                cancel()
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onFailed(e)
-                }
-                cancel()
-            }
+        try {
+            val result: Res = parseResponse(service.callPut(endpoint, body, headers).toString())
+            onSuccess(result)
+        } catch (e: Exception) {
+            onFailed(e)
         }
     }
 
@@ -183,25 +157,17 @@ object SimplifiedRequests {
      * @param onSuccess a callback for when the result is returned
      * @param onFailed a callback for when an error has returned
      **/
-    inline fun <reified Res : Any> callDelete(
+    suspend inline fun <reified Res : Any> callDelete(
         endpoint: String,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
         crossinline onFailed: (Exception) -> Unit = {}
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val result: Res = parseResponse(service.callDelete(endpoint, headers).toString())
-                withContext(Dispatchers.Main) {
-                    onSuccess(result)
-                }
-                cancel()
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onFailed(e)
-                }
-                cancel()
-            }
+        try {
+            val result: Res = parseResponse(service.callDelete(endpoint, headers).toString())
+            onSuccess(result)
+        } catch (e: Exception) {
+            onFailed(e)
         }
     }
 
