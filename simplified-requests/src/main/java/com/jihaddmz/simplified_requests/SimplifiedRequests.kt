@@ -84,7 +84,7 @@ object SimplifiedRequests {
         queryParams: HashMap<String, String>? = null,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
-        crossinline onFailed: (HttpException) -> Unit = {}
+        crossinline onFailed: (String) -> Unit = {}
     ) {
         try {
             val result: Res = if (queryParams != null) {
@@ -95,7 +95,7 @@ object SimplifiedRequests {
             }
             onSuccess(result)
         } catch (e: HttpException) {
-            onFailed(e)
+            onFailed(e.response()?.errorBody()?.string() ?: "Unknown Exception")
         }
     }
 
@@ -114,14 +114,14 @@ object SimplifiedRequests {
         body: Any,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
-        crossinline onFailed: (HttpException) -> Unit = {}
+        crossinline onFailed: (String) -> Unit = {}
     ) {
         try {
             val result: Res =
                 parseResponse(service.callPost(endpoint, body, headers).toString())
             onSuccess(result)
         } catch (e: HttpException) {
-            onFailed(e)
+            onFailed(e.response()?.errorBody()?.string() ?: "Unknown Exception")
         }
     }
 
@@ -140,13 +140,13 @@ object SimplifiedRequests {
         body: Any,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
-        crossinline onFailed: (HttpException) -> Unit = {}
+        crossinline onFailed: (String) -> Unit = {}
     ) {
         try {
             val result: Res = parseResponse(service.callPut(endpoint, body, headers).toString())
             onSuccess(result)
         } catch (e: HttpException) {
-            onFailed(e)
+            onFailed(e.response()?.errorBody()?.string() ?: "Unknown Exception")
         }
     }
 
@@ -162,13 +162,13 @@ object SimplifiedRequests {
         endpoint: String,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
-        crossinline onFailed: (HttpException) -> Unit = {}
+        crossinline onFailed: (String) -> Unit = {}
     ) {
         try {
             val result: Res = parseResponse(service.callDelete(endpoint, headers).toString())
             onSuccess(result)
         } catch (e: HttpException) {
-            onFailed(e)
+            onFailed(e.response()?.errorBody()?.string() ?: "Unknown Exception")
         }
     }
 

@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                 binding.tv.text = it.toString()
             },
             onFailed = {
-                binding.tv.text = it.message
+                binding.tv.text = it
             })
     }
 }
