@@ -52,8 +52,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-//    implementation(project(":simplified-requests"))
+    implementation(project(":simplified-requests"))
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.github.jihaddmz:simplified-requests:0.9.0")
+//    implementation("com.github.jihaddmz:simplified-requests:0.9.0")
 
 }

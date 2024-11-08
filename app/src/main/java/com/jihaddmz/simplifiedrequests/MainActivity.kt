@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
             headers = hashMapOf("Authorization" to "Bearer sh_8u458345834jfjdjfjdsfn")
         )
 
-        fetchPersons()
+//        fetchPersons()
 //        fetchPerson()
 //        addPerson()
 //        updatePerson()
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun deletePerson() {
+    private suspend fun deletePerson() {
         SimplifiedRequests.callDelete<SimpleMessageDTO>(
             "person/Jihad",
             onSuccess = {
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun updatePerson() {
+    private suspend fun updatePerson() {
         SimplifiedRequests.callPut<SimpleMessageDTO>(
             "person/Jihadmz",
             PersonDTO("Jihad", "Mahfouz"),
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun addPerson() {
+    private suspend fun addPerson() {
         SimplifiedRequests.callPost<SimpleMessageDTO>(
             "persons",
             PersonDTO("Jihad", "Mahfouz"),
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun fetchPerson() {
+    private suspend fun fetchPerson() {
         SimplifiedRequests.callGet<FilterPersonDTO>(
             "person",
             hashMapOf("firstName" to "Jihadmz"),
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun fetchPersons() {
+    private suspend fun fetchPersons() {
         SimplifiedRequests.callGet<ArrayList<PersonDTO>>(
             "persons",
             null,

@@ -10,6 +10,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -83,7 +84,7 @@ object SimplifiedRequests {
         queryParams: HashMap<String, String>? = null,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
-        crossinline onFailed: (Exception) -> Unit = {}
+        crossinline onFailed: (HttpException) -> Unit = {}
     ) {
         try {
             val result: Res = if (queryParams != null) {
@@ -93,7 +94,7 @@ object SimplifiedRequests {
 
             }
             onSuccess(result)
-        } catch (e: Exception) {
+        } catch (e: HttpException) {
             onFailed(e)
         }
     }
@@ -113,13 +114,13 @@ object SimplifiedRequests {
         body: Any,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
-        crossinline onFailed: (Exception) -> Unit = {}
+        crossinline onFailed: (HttpException) -> Unit = {}
     ) {
         try {
             val result: Res =
                 parseResponse(service.callPost(endpoint, body, headers).toString())
             onSuccess(result)
-        } catch (e: Exception) {
+        } catch (e: HttpException) {
             onFailed(e)
         }
     }
@@ -139,12 +140,12 @@ object SimplifiedRequests {
         body: Any,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
-        crossinline onFailed: (Exception) -> Unit = {}
+        crossinline onFailed: (HttpException) -> Unit = {}
     ) {
         try {
             val result: Res = parseResponse(service.callPut(endpoint, body, headers).toString())
             onSuccess(result)
-        } catch (e: Exception) {
+        } catch (e: HttpException) {
             onFailed(e)
         }
     }
@@ -161,12 +162,12 @@ object SimplifiedRequests {
         endpoint: String,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
-        crossinline onFailed: (Exception) -> Unit = {}
+        crossinline onFailed: (HttpException) -> Unit = {}
     ) {
         try {
             val result: Res = parseResponse(service.callDelete(endpoint, headers).toString())
             onSuccess(result)
-        } catch (e: Exception) {
+        } catch (e: HttpException) {
             onFailed(e)
         }
     }

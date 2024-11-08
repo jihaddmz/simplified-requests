@@ -56,7 +56,7 @@ afterEvaluate {
                 from (components["release"])
                 groupId = "com.github.jihaddmz"
                 artifactId = "simplified-requests"
-                version = "1.0.1"
+                version = "1.0.2"
             }
         }
     }
