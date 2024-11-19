@@ -91,7 +91,6 @@ object SimplifiedRequests {
                 parseResponse(service.callGet(endpoint, queryParams, headers).toString())
             } else {
                 parseResponse(service.callGet(endpoint).toString())
-
             }
             onSuccess(result)
         } catch (e: HttpException) {
@@ -111,14 +110,18 @@ object SimplifiedRequests {
      **/
     suspend inline fun <reified Res : Any> callPost(
         endpoint: String,
-        body: Any,
+        queryParams: HashMap<String, String>? = null,
+        body: Any? = null,
         headers: Map<String, String> = mapOf(),
         crossinline onSuccess: (Res) -> Unit,
         crossinline onFailed: (String) -> Unit = {}
     ) {
         try {
-            val result: Res =
+            val result: Res = if (body != null) {
                 parseResponse(service.callPost(endpoint, body, headers).toString())
+            } else {
+                parseResponse(service.callPost(endpoint, queryParams!!, headers).toString())
+            }
             onSuccess(result)
         } catch (e: HttpException) {
             onFailed(e.response()?.errorBody()?.string() ?: "Unknown Exception")

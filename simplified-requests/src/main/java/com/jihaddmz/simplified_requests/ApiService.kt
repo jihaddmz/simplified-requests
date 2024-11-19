@@ -33,6 +33,13 @@ interface ApiService {
         @HeaderMap headers: Map<String, String> = mapOf()
     ): JsonElement
 
+    @POST("{endpoint}")
+    suspend fun callPost(
+        @Path("endpoint", encoded = true) endpoint: String,
+        @QueryMap options: Map<String, String>,
+        @HeaderMap headers: Map<String, String> = mapOf()
+    ): JsonElement
+
      @PUT("{endpoint}")
      suspend fun callPut(
          @Path("endpoint", encoded = true) endpoint: String,
