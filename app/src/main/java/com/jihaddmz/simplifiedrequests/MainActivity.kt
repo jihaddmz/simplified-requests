@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
     private suspend fun addPerson() {
         SimplifiedRequests.callPost<SimpleMessageDTO>(
             "persons",
+            null,
             PersonDTO("Jihad", "Mahfouz"),
             mapOf("Authorization" to "sh_kdsjfksdjfkdjfkjfksjfkjd"),
             onSuccess = {
